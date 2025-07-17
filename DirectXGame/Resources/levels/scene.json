@@ -1,0 +1,137 @@
+{
+    "name": "scene",
+    "objects": [
+        {
+            "type": "MESH",
+            "name": "Cube",
+            "transform": {
+                "transform": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotaticon": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "player"
+        },
+        {
+            "type": "LIGHT",
+            "name": "Light",
+            "transform": {
+                "transform": [
+                    4.076245307922363,
+                    1.0054539442062378,
+                    5.903861999511719
+                ],
+                "rotaticon": [
+                    37.26104736328125,
+                    3.1637091636657715,
+                    106.93632507324219
+                ],
+                "scaling": [
+                    1.0,
+                    0.9999999403953552,
+                    1.0
+                ]
+            }
+        },
+        {
+            "type": "CAMERA",
+            "name": "Camera",
+            "transform": {
+                "transform": [
+                    7.358891487121582,
+                    -6.925790786743164,
+                    4.958309173583984
+                ],
+                "rotaticon": [
+                    63.559295654296875,
+                    2.2983238068263745e-07,
+                    46.69194412231445
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "ICO球",
+            "transform": {
+                "transform": [
+                    0.0,
+                    2.714700698852539,
+                    0.0
+                ],
+                "rotaticon": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "block",
+            "children": [
+                {
+                    "type": "MESH",
+                    "name": "ICO球second",
+                    "transform": {
+                        "transform": [
+                            0.0,
+                            2.8395376205444336,
+                            0.0
+                        ],
+                        "rotaticon": [
+                            0.0,
+                            -0.0,
+                            0.0
+                        ],
+                        "scaling": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ]
+                    },
+                    "file_name": "block"
+                }
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "円錐",
+            "transform": {
+                "transform": [
+                    -1.9068317413330078,
+                    -4.153474807739258,
+                    0.0
+                ],
+                "rotaticon": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "enemy"
+        }
+    ]
+}
