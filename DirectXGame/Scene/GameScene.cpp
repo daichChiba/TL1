@@ -55,19 +55,10 @@ void GameScene::Initialize() {
 	levelData->name = deserialized["name"].get<std::string>();
 	assert(levelData->name == "scene"); // それは"scene"か？
 
-	//// "name"を文字列として取得
-	// std::string name = deserialized["name"].get<std::string>();
-	//// 正しいレベルデータかチェック
-	// assert(name.compare("scene") == 0);
-
-	//// レベルデータ格納用インスタンスを生成
-	// LevelData* levelData = new LevelData();
-
 	// "objects"の全オブジェクトを走査
 	for (nlohmann::json& object : deserialized["objects"]) {
 		// オブジェクト 一つ分の妥当性のチェック
 		assert(object.contains("type")); //"type""が含まれているか
-		// std::string type = object["type"].get<std::string>();
 
 		if (object["type"].get<std::string>() == "MESH") {
 			// 1個分の要素の準備
@@ -96,43 +87,45 @@ void GameScene::Initialize() {
 			if (object.contains("file_name")) {
 				objectData.file_name = object["file_name"].get<std::string>();
 			}
-
-
 		}
-
 	}
 
 	//-------------------------------------------------------------------
 	// レベルデータからオブジェクトを生成、配置
 	//-------------------------------------------------------------------
 	for (auto& objectData_ : levelData->objects) {
+		Model* model = nullptr;
+		decltype(models)::iterator it = models.find(objectData_.file_name);
 		// 登録モデルを検索
-		if (models.find(objectData_.file_name) == models.end()) {
-			Model* model = Model::CreateFromOBJ(objectData_.file_name);
+		if (it != models.end()) {
+			model = it->second;
+		} else {
+			model = Model::CreateFromOBJ(objectData_.file_name);
 			models[objectData_.file_name] = model;
 		}
-		// 3Dオブジェクトを生成
-		WorldTransform* newObject = new WorldTransform();
-		// 位置の設定 objectData.transform.translation	に入っている
-		newObject->translation_ = objectData_.transform.translation;
-		// 回転の設定 objectData.transform.rotation		に入っている
-		newObject->rotation_ = objectData_.transform.rotation;
-		// 拡大縮小　objectData.scaling					に入っている
-		newObject->scale_ = objectData_.transform.scaling;
 
-		newObject->Initialize();
+
+		// 3Dオブジェクトを生成
+		WorldTransform* worldTransform = new WorldTransform();
+		// 位置の設定 objectData.transform.translation	に入っている
+		worldTransform->translation_ = objectData_.transform.translation;
+		// 回転の設定 objectData.transform.rotation		に入っている
+		worldTransform->rotation_ = objectData_.transform.rotation;
+		// 拡大縮小　objectData.scaling					に入っている
+		worldTransform->scale_ = objectData_.transform.scaling;
+
+		worldTransform->Initialize();
 
 		// 配列に登録
-		worldTransforms.push_back(newObject);
+		worldTransforms.push_back(worldTransform);
 	}
-
 
 	camera_.Initialize();
 }
 
 void GameScene::Update() {
 	for (WorldTransform* worldTransform : worldTransforms) {
-		worldTransform->matWorld_ = MathUtility::MakeAffineMatrix(worldTransform->scale_,worldTransform->rotation_,worldTransform->translation_);
+		worldTransform->matWorld_ = MathUtility::MakeAffineMatrix(worldTransform->scale_, worldTransform->rotation_, worldTransform->translation_);
 		worldTransform->UpdateMatrix();
 	}
 }
@@ -190,4 +183,3 @@ void GameScene::Draw() {
 
 #pragma endregion
 }
-
