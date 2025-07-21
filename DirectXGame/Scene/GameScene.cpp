@@ -115,8 +115,6 @@ void GameScene::Initialize() {
 				// 拡大縮小　objectData.scaling					に入っている
 				newObject->scale_ = objectData_.transform.scaling;
 
-				if (objectData_.file_name == std::string("cube")) {
-				}
 
 				newObject->Initialize();
 
@@ -170,7 +168,7 @@ void GameScene::Initialize() {
 void GameScene::Update() {
 	for (WorldTransform* worldTransform : worldTransforms) {
 		worldTransform->matWorld_ = MathUtility::MakeTranslateMatrix(worldTransform->translation_);
-		worldTransform->UpdateMatrix();
+		worldTransform->TransferMatrix();
 	}
 	//DrawImgui();
 }
@@ -245,10 +243,4 @@ void GameScene::Draw() {
 #pragma endregion
 }
 
-void GameScene::DrawImgui() {
-	ImGui::Begin("Game");
-	for (int i = 0; i < worldTransforms.size(); i++) {
-		ImGui::DragFloat3("model", &worldTransforms[i]->translation_.x, 0.1f);
-	}
-	ImGui::End();
-}
+
