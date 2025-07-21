@@ -104,6 +104,7 @@ Vector3 operator*(const Vector3& v, const Matrix4x4& m);
 // 線形補間
 float Lerp(float a, float b, float t);
 
+// アフィン変換
 Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate);
 
 } // namespace MathUtility

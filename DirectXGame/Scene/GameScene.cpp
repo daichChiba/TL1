@@ -97,30 +97,7 @@ void GameScene::Initialize() {
 				objectData.file_name = object["file_name"].get<std::string>();
 			}
 
-			//-------------------------------------------------------------------
-			// レベルデータからオブジェクトを生成、配置
-			//-------------------------------------------------------------------
-			for (auto& objectData_ : levelData->objects) {
-				// 登録モデルを検索
-				if (models.find(objectData_.file_name) == models.end()) {
-					Model* model = Model::CreateFromOBJ(objectData_.file_name);
-					models[objectData_.file_name] = model;
-				}
-				// 3Dオブジェクトを生成
-				WorldTransform* newObject = new WorldTransform();
-				// 位置の設定 objectData.transform.translation	に入っている
-				newObject->translation_ = objectData_.transform.translation;
-				// 回転の設定 objectData.transform.rotation		に入っている
-				newObject->rotation_ = objectData_.transform.rotation;
-				// 拡大縮小　objectData.scaling					に入っている
-				newObject->scale_ = objectData_.transform.scaling;
 
-
-				newObject->Initialize();
-
-				// 配列に登録
-				worldTransforms.push_back(newObject);
-			}
 		}
 
 		//// MESH
@@ -156,6 +133,30 @@ void GameScene::Initialize() {
 		// }
 	}
 
+	//-------------------------------------------------------------------
+	// レベルデータからオブジェクトを生成、配置
+	//-------------------------------------------------------------------
+	for (auto& objectData_ : levelData->objects) {
+		// 登録モデルを検索
+		if (models.find(objectData_.file_name) == models.end()) {
+			Model* model = Model::CreateFromOBJ(objectData_.file_name);
+			models[objectData_.file_name] = model;
+		}
+		// 3Dオブジェクトを生成
+		WorldTransform* newObject = new WorldTransform();
+		// 位置の設定 objectData.transform.translation	に入っている
+		newObject->translation_ = objectData_.transform.translation;
+		// 回転の設定 objectData.transform.rotation		に入っている
+		newObject->rotation_ = objectData_.transform.rotation;
+		// 拡大縮小　objectData.scaling					に入っている
+		newObject->scale_ = objectData_.transform.scaling;
+
+		newObject->Initialize();
+
+		// 配列に登録
+		worldTransforms.push_back(newObject);
+	}
+
 	//// レベルデータからオブジェクトを生成、配置
 	// for (auto& objectData : levelData->objects) {
 	//	// ファイル名から登録済みモデルを検索
@@ -170,7 +171,7 @@ void GameScene::Update() {
 		worldTransform->matWorld_ = MathUtility::MakeTranslateMatrix(worldTransform->translation_);
 		worldTransform->TransferMatrix();
 	}
-	//DrawImgui();
+	 DrawImgui();
 }
 
 void GameScene::Draw() {
@@ -200,12 +201,10 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 
-	 int i = 0;
-
 	//-------------------------------------------------------------------//
 	// レベルデータからオブジェクトを生成、配置
 	//-------------------------------------------------------------------//
-	//for (auto& objectData : levelData->objects) {
+	// for (auto& objectData : levelData->objects) {
 	//	// モデルファイル名
 	//	Model* model = nullptr;
 	//	decltype(models)::iterator it = models.find(objectData.file_name);
@@ -216,14 +215,14 @@ void GameScene::Draw() {
 	//	i++;
 	//}
 
-	// int i = 0;
+	int i = 0;
 	//-------------------------------------------------------------------
 	// レベルデータからオブジェクトを生成、配置
 	//-------------------------------------------------------------------
-	 for (auto& objectData : levelData->objects) {
+	for (ObjectData& objectData : levelData->objects) {
 		models[objectData.file_name]->Draw(*worldTransforms[i], camera_);
 		i++;
-	 }
+	}
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -243,4 +242,16 @@ void GameScene::Draw() {
 #pragma endregion
 }
 
-
+void GameScene::DrawImgui() {
+//#ifdef _DEBUG
+//	ImGui::Begin("Debug");
+//	int i = 0;
+//	for (ObjectData& objectData_ : levelData->objects) {
+//		ImGui::Text("%s", &objectData_.file_name);
+//	}
+//	for (WorldTransform* worldTransform : worldTransforms) {
+//		ImGui::DragFloat3("transform_", &worldTransform[i].translation_.x, 0.01f);
+//	}
+//	ImGui::End();
+//#endif // _DEBUG
+}
