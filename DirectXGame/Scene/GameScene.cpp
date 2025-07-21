@@ -100,37 +100,6 @@ void GameScene::Initialize() {
 
 		}
 
-		//// MESH
-		// if (type.compare("MESH") == 0) {
-		//	// 要素追加
-		//	levelData->objects.emplace_back(LevelData::ObjectData{});
-		//	// 今追加した要素の参照を得る
-		//	LevelData::ObjectData& objectData = levelData->objects.back();
-
-		//	if (object.contains("file_name")) {
-		//		// ファイル名
-		//		objectData.fileName = object["file_name"];
-		//	}
-		//	// トランスフォームのパラメータ読み込み
-		//	nlohmann::json& transform = object["transform"];
-		//	// 平行移動 "translation"
-		//	objectData.translation.x = (float)transform["translation"][1];
-		//	objectData.translation.y = (float)transform["translation"][2];
-		//	objectData.translation.z = (float)transform["translation"][0];
-		//	// 回転角 "rotation"
-		//	objectData.rotation.x = -(float)transform["rotation"][1];
-		//	objectData.rotation.y = -(float)transform["rotation"][2];
-		//	objectData.rotation.z = -(float)transform["rotation"][0];
-		//	// 拡大縮小 "scaling"
-		//	objectData.scaling.x = (float)transform["scaling"][1];
-		//	objectData.scaling.y = (float)transform["scaling"][2];
-		//	objectData.scaling.z = (float)transform["scaling"][0];
-		//	// TODO: コライダーのパラメータ読み込み
-		//}
-		//// 再帰処理
-		//// TODO:　オブジェクト走査を再起関数にまとめ、再帰呼出で枝を走査する
-		// if (object.contains("children")) {
-		// }
 	}
 
 	//-------------------------------------------------------------------
@@ -157,21 +126,15 @@ void GameScene::Initialize() {
 		worldTransforms.push_back(newObject);
 	}
 
-	//// レベルデータからオブジェクトを生成、配置
-	// for (auto& objectData : levelData->objects) {
-	//	// ファイル名から登録済みモデルを検索
-	//	Model* model = nullptr;
-	//	//decltype(models)
-	// }
+
 	camera_.Initialize();
 }
 
 void GameScene::Update() {
 	for (WorldTransform* worldTransform : worldTransforms) {
-		worldTransform->matWorld_ = MathUtility::MakeTranslateMatrix(worldTransform->translation_);
-		worldTransform->TransferMatrix();
+		worldTransform->matWorld_ = MathUtility::MakeAffineMatrix(worldTransform->scale_,worldTransform->rotation_,worldTransform->translation_);
+		worldTransform->UpdateMatrix();
 	}
-	 DrawImgui();
 }
 
 void GameScene::Draw() {
@@ -201,20 +164,6 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 
-	//-------------------------------------------------------------------//
-	// レベルデータからオブジェクトを生成、配置
-	//-------------------------------------------------------------------//
-	// for (auto& objectData : levelData->objects) {
-	//	// モデルファイル名
-	//	Model* model = nullptr;
-	//	decltype(models)::iterator it = models.find(objectData.file_name);
-	//	if (it != models.end()) {
-	//		model = it->second;
-	//	}
-	//	model->Draw(*worldTransforms[i], camera_);
-	//	i++;
-	//}
-
 	int i = 0;
 	//-------------------------------------------------------------------
 	// レベルデータからオブジェクトを生成、配置
@@ -242,16 +191,3 @@ void GameScene::Draw() {
 #pragma endregion
 }
 
-void GameScene::DrawImgui() {
-//#ifdef _DEBUG
-//	ImGui::Begin("Debug");
-//	int i = 0;
-//	for (ObjectData& objectData_ : levelData->objects) {
-//		ImGui::Text("%s", &objectData_.file_name);
-//	}
-//	for (WorldTransform* worldTransform : worldTransforms) {
-//		ImGui::DragFloat3("transform_", &worldTransform[i].translation_.x, 0.01f);
-//	}
-//	ImGui::End();
-//#endif // _DEBUG
-}

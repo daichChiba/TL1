@@ -67,5 +67,4 @@ private:
 
 	KamataEngine::Camera camera_;
 
-	void DrawImgui();
 };
