@@ -80,17 +80,17 @@ void GameScene::Initialize() {
 			// トランスフォームのパラメータ読み込み
 			nlohmann::json& transform = object["transform"];
 			// 平行移動 "translation"
-			objectData.transform.translation.x = (float)transform["translation"][1];
+			objectData.transform.translation.x = (float)transform["translation"][0];
 			objectData.transform.translation.y = (float)transform["translation"][2];
-			objectData.transform.translation.z = (float)transform["translation"][0];
+			objectData.transform.translation.z = (float)transform["translation"][1];
 			// 回転角 "rotation"
-			objectData.transform.rotation.x = -(float)transform["rotation"][1];
+			objectData.transform.rotation.x = -(float)transform["rotation"][0];
 			objectData.transform.rotation.y = -(float)transform["rotation"][2];
-			objectData.transform.rotation.z = -(float)transform["rotation"][0];
+			objectData.transform.rotation.z = -(float)transform["rotation"][1];
 			// 拡大縮小 "scaling"
-			objectData.transform.scaling.x = (float)transform["scaling"][1];
+			objectData.transform.scaling.x = (float)transform["scaling"][0];
 			objectData.transform.scaling.y = (float)transform["scaling"][2];
-			objectData.transform.scaling.z = (float)transform["scaling"][0];
+			objectData.transform.scaling.z = (float)transform["scaling"][1];
 
 			//"file_name"
 			if (object.contains("file_name")) {
