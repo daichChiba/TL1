@@ -19,6 +19,7 @@ void GameScene::Initialize() {
 	audio_ = Audio::GetInstance();
 
 	levelData = new LevelData();
+	objectes = new Object();
 
 	//-------------------------------------------------------------------
 	// jsonファイルのデシリアライズ化
@@ -102,6 +103,7 @@ void GameScene::Initialize() {
 		} else {
 			model = Model::CreateFromOBJ(objectData_.file_name);
 			models[objectData_.file_name] = model;
+			objectes->file_name = objectData_.file_name;
 		}
 
 
@@ -117,14 +119,14 @@ void GameScene::Initialize() {
 		worldTransform->Initialize();
 
 		// 配列に登録
-		worldTransforms.push_back(worldTransform);
+		objectes->worldTransforms.push_back(worldTransform);
 	}
 
 	camera_.Initialize();
 }
 
 void GameScene::Update() {
-	for (WorldTransform* worldTransform : worldTransforms) {
+	for (WorldTransform* worldTransform : objectes->worldTransforms) {
 		worldTransform->matWorld_ = MathUtility::MakeAffineMatrix(worldTransform->scale_, worldTransform->rotation_, worldTransform->translation_);
 		worldTransform->UpdateMatrix();
 	}
@@ -162,7 +164,7 @@ void GameScene::Draw() {
 	// レベルデータからオブジェクトを生成、配置
 	//-------------------------------------------------------------------
 	for (ObjectData& objectData : levelData->objects) {
-		models[objectData.file_name]->Draw(*worldTransforms[i], camera_);
+		models[objectData.file_name]->Draw(*objectes->worldTransforms[i], camera_);
 		i++;
 	}
 
