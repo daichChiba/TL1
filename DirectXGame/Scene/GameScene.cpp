@@ -103,9 +103,8 @@ void GameScene::Initialize() {
 		} else {
 			model = Model::CreateFromOBJ(objectData_.file_name);
 			models[objectData_.file_name] = model;
-			objectes->file_name = objectData_.file_name;
+			objectes->file_name.push_back(&objectData_.file_name);
 		}
-
 
 		// 3Dオブジェクトを生成
 		WorldTransform* worldTransform = new WorldTransform();
@@ -164,7 +163,9 @@ void GameScene::Draw() {
 	// レベルデータからオブジェクトを生成、配置
 	//-------------------------------------------------------------------
 	for (ObjectData& objectData : levelData->objects) {
-		models[objectData.file_name]->Draw(*objectes->worldTransforms[i], camera_);
+		if (objectData.file_name == *objectes->file_name[i]) {
+			models[*objectes->file_name[i]]->Draw(*objectes->worldTransforms[i], camera_);
+		}
 		i++;
 	}
 

@@ -36,7 +36,7 @@ class GameScene {
 
 	struct Object {
 		// file_name
-		std::string file_name;
+		std::vector<std::string*> file_name;
 		// worldTransform
 		std::vector<KamataEngine::WorldTransform*> worldTransforms;
 	};
@@ -53,18 +53,16 @@ public:
 	// 描画
 	void Draw();
 
-
 private:
 	KamataEngine::DirectXCommon* dxCommon_ = nullptr;
 	KamataEngine::Input* input_ = nullptr;
 	KamataEngine::Audio* audio_ = nullptr;
 
-
 	// モデルデータコンテナ
 	std::map<std::string, KamataEngine::Model*> models;
 
 	// ワールドトランスフォーム
-	//std::vector<KamataEngine::WorldTransform*> worldTransforms;
+	// std::vector<KamataEngine::WorldTransform*> worldTransforms;
 
 	//-------------------------------------------------------------------
 	// レベルデータを構造体に格納していく
@@ -73,7 +71,5 @@ private:
 
 	Object* objectes = nullptr;
 
-
 	KamataEngine::Camera camera_;
-
 };
